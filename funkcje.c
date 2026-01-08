@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h> 
 #include "funkcje.h"
 
 void wyswietlMenu() {
@@ -8,7 +9,9 @@ void wyswietlMenu() {
     printf("2. Wyswietl baze danych\n");
     printf("3. Zapisz do pliku\n");
     printf("4. Wczytaj z pliku\n");
-    printf("5. Zakoncz program\n");
+    printf("5. Wyszukaj po ID\n");
+    printf("6. Wyszukaj po Nazwie\n");
+    printf("0. Zakoncz program\n"); // Zmienilem wyjscie na 0
     printf("Twoj wybor: ");
 }
 
@@ -52,31 +55,62 @@ void zapiszDoPliku(const Rekord *baza, int licznik) {
         return;
     }
 
-    // Zapisujemy ilosc rekordow jako pierwsza liczbe
     fprintf(plik, "%d\n", licznik);
-
     for (int i = 0; i < licznik; i++) {
         fprintf(plik, "%d %s %.2f\n", baza[i].id, baza[i].nazwa, baza[i].wartosc);
     }
-
     fclose(plik);
-    printf("[SUKCES] Dane zapisane do pliku %s.\n", PLIK_DANE);
+    printf("[SUKCES] Dane zapisane.\n");
 }
 
 void wczytajZPliku(Rekord *baza, int *licznik) {
     FILE *plik = fopen(PLIK_DANE, "r");
     if (plik == NULL) {
-        printf("[INFO] Brak pliku z danymi lub blad odczytu.\n");
-        return;
+        return; // Brak pliku to nie blad na starcie
     }
 
-    // Wczytujemy liczbe rekordow
     fscanf(plik, "%d", licznik);
-
     for (int i = 0; i < *licznik; i++) {
         fscanf(plik, "%d %s %f", &baza[i].id, baza[i].nazwa, &baza[i].wartosc);
     }
-
     fclose(plik);
-    printf("[SUKCES] Wczytano %d rekordow z pliku.\n", *licznik);
+}
+
+// --- NOWE FUNKCJE WYSZUKIWANIA ---
+
+void wyszukajPoID(const Rekord *baza, int licznik) {
+    int szukaneId;
+    int znaleziono = 0;
+    
+    printf("Podaj ID do znalezienia: ");
+    scanf("%d", &szukaneId);
+
+    printf("\n--- WYNIKI WYSZUKIWANIA (ID: %d) ---\n", szukaneId);
+    for (int i = 0; i < licznik; i++) {
+        if (baza[i].id == szukaneId) {
+            printf("%d | %s | %.2f\n", baza[i].id, baza[i].nazwa, baza[i].wartosc);
+            znaleziono = 1;
+        }
+    }
+
+    if (!znaleziono) printf("Nie znaleziono rekordu o takim ID.\n");
+}
+
+void wyszukajPoNazwie(const Rekord *baza, int licznik) {
+    char szukanaNazwa[50];
+    int znaleziono = 0;
+
+    printf("Podaj fragment nazwy: ");
+    scanf("%s", szukanaNazwa);
+
+    printf("\n--- WYNIKI WYSZUKIWANIA (Nazwa: %s) ---\n", szukanaNazwa);
+    for (int i = 0; i < licznik; i++) {
+        // strstr sprawdza, czy szukanaNazwa zawiera sie w baza[i].nazwa
+        if (strstr(baza[i].nazwa, szukanaNazwa) != NULL) {
+            printf("%d | %s | %.2f\n", baza[i].id, baza[i].nazwa, baza[i].wartosc);
+            znaleziono = 1;
+        }
+    }
+
+    if (!znaleziono) printf("Nie znaleziono pasujacych rekordow.\n");
 }
