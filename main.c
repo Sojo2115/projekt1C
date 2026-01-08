@@ -7,12 +7,12 @@ int main() {
     int licznik = 0;
     int wybor;
 
-    printf("Uruchamianie systemu...\n");
+    // Automatyczne wczytanie danych na starcie
+    wczytajZPliku(baza, &licznik);
 
     do {
         wyswietlMenu();
         if (scanf("%d", &wybor) != 1) {
-            // Zabezpieczenie przed wpisaniem liter zamiast cyfr
             while(getchar() != '\n');
             wybor = 0;
         }
@@ -25,12 +25,20 @@ int main() {
                 wyswietlWszystkie(baza, licznik);
                 break;
             case 3:
+                zapiszDoPliku(baza, licznik);
+                break;
+            case 4:
+                wczytajZPliku(baza, &licznik);
+                break;
+            case 5:
+                // Automatyczny zapis przy wyjsciu
+                zapiszDoPliku(baza, licznik);
                 printf("Zamykanie...\n");
                 break;
             default:
-                printf("Nieznana opcja, sprobuj ponownie.\n");
+                printf("Nieznana opcja.\n");
         }
-    } while (wybor != 3);
+    } while (wybor != 5);
 
     return 0;
 }
