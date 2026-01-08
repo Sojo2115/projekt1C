@@ -7,14 +7,14 @@ int main() {
     int licznik = 0;
     int wybor;
 
-    // Automatyczne wczytanie danych na starcie
     wczytajZPliku(baza, &licznik);
+    printf("Wczytano %d rekordow na starcie.\n", licznik);
 
     do {
         wyswietlMenu();
         if (scanf("%d", &wybor) != 1) {
             while(getchar() != '\n');
-            wybor = 0;
+            wybor = -1;
         }
 
         switch (wybor) {
@@ -31,14 +31,19 @@ int main() {
                 wczytajZPliku(baza, &licznik);
                 break;
             case 5:
-                // Automatyczny zapis przy wyjsciu
+                wyszukajPoID(baza, licznik);
+                break;
+            case 6:
+                wyszukajPoNazwie(baza, licznik);
+                break;
+            case 0:
                 zapiszDoPliku(baza, licznik);
-                printf("Zamykanie...\n");
+                printf("Zamykanie programu...\n");
                 break;
             default:
                 printf("Nieznana opcja.\n");
         }
-    } while (wybor != 5);
+    } while (wybor != 0);
 
     return 0;
 }
