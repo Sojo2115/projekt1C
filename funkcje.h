@@ -16,12 +16,18 @@ void wyswietlMenu();
 void dodajRekord(Rekord *baza, int *licznik);
 void wyswietlWszystkie(const Rekord *baza, int licznik);
 
-// Obsluga plikow
+// Pliki
 void zapiszDoPliku(const Rekord *baza, int licznik);
 void wczytajZPliku(Rekord *baza, int *licznik);
 
-// Nowe funkcje: Wyszukiwanie
+// Wyszukiwanie
 void wyszukajPoID(const Rekord *baza, int licznik);
 void wyszukajPoNazwie(const Rekord *baza, int licznik);
+
+// Edycja, Usuwanie, Sortowanie
+void usunRekord(Rekord *baza, int *licznik);
+void edytujRekord(Rekord *baza, int licznik);
+void sortujPoNazwie(Rekord *baza, int licznik);
+void sortujPoWartosci(Rekord *baza, int licznik);
 
 #endif
