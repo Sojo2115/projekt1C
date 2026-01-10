@@ -8,7 +8,6 @@ int main() {
     int wybor;
 
     wczytajZPliku(baza, &licznik);
-    printf("Wczytano %d rekordow na starcie.\n", licznik);
 
     do {
         wyswietlMenu();
@@ -18,30 +17,21 @@ int main() {
         }
 
         switch (wybor) {
-            case 1:
-                dodajRekord(baza, &licznik);
-                break;
-            case 2:
-                wyswietlWszystkie(baza, licznik);
-                break;
-            case 3:
+            case 1: dodajRekord(baza, &licznik); break;
+            case 2: wyswietlWszystkie(baza, licznik); break;
+            case 3: zapiszDoPliku(baza, licznik); break;
+            case 4: wczytajZPliku(baza, &licznik); break;
+            case 5: wyszukajPoID(baza, licznik); break;
+            case 6: wyszukajPoNazwie(baza, licznik); break;
+            case 7: edytujRekord(baza, licznik); break;
+            case 8: usunRekord(baza, &licznik); break;
+            case 9: sortujPoNazwie(baza, licznik); break;
+            case 10: sortujPoWartosci(baza, licznik); break;
+            case 0: 
                 zapiszDoPliku(baza, licznik);
+                printf("Koniec.\n"); 
                 break;
-            case 4:
-                wczytajZPliku(baza, &licznik);
-                break;
-            case 5:
-                wyszukajPoID(baza, licznik);
-                break;
-            case 6:
-                wyszukajPoNazwie(baza, licznik);
-                break;
-            case 0:
-                zapiszDoPliku(baza, licznik);
-                printf("Zamykanie programu...\n");
-                break;
-            default:
-                printf("Nieznana opcja.\n");
+            default: printf("Zla opcja.\n");
         }
     } while (wybor != 0);
 
